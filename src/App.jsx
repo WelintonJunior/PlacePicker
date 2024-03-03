@@ -7,17 +7,14 @@ import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
 import { sortPlacesByDistance } from './loc.js'
 
+const storedIds = JSON.parse(localStorage.getItem('selectedPlaces') || [])
+const storedPlaces = storedIds.map((id) => AVAILABLE_PLACES.find((place) => place.id === id))
+
 function App() {
   const modal = useRef();
   const selectedPlace = useRef();
   const [sortedPlaces, setSortedPlaces] = useState([]);
-  const [pickedPlaces, setPickedPlaces] = useState([]);
-
-  useEffect(() => {
-    const storedIds = JSON.parse(localStorage.getItem('selectedPlaces') || [])
-    const storedPlaces = storedIds.map((id) => AVAILABLE_PLACES.find((place) => place.id === id))
-    setPickedPlaces(storedPlaces)
-  }, [])
+  const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
